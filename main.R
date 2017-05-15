@@ -83,17 +83,17 @@ ecal<-function(str){
             negvalue[nncount]<-negvalue[nncount]+winvalue[k]
           }
         }
-        cat("这时候的积极情感值、消极情感值值分别是：",pvalue,nvalue,"\n")
+        cat("第",,"句的积极情感值、消极情感值值分别是：",posvalue[ppcount],negvalue[nncount],"\n")
         if(result[i]%in%c("!","！")){
           posvalue[ppcount]=posvalue[ppcount]*2
           negvalue[nncount]=negvalue[nncount]*2
-          cat("处理感叹句，处理后积极情感值和消极情感值分别为：",pvalue,nvalue,"\n")          
+          cat("处理感叹句，处理后积极情感值和消极情感值分别为：",posvalue[ppcount],negvalue[nncount],"\n")          
         }
         else if(result[i]%in%c("?","？") & rheflag==TRUE ){
           temp<-negvalue[nncount]
           negvalue[nncount]=posvalue[nncount]*(-2)
           posvalue[ppcount]=temp*(-2)
-          cat("处理反问句，处理后积极情感值和消极情感值分别为：",pvalue,nvalue,"\n")          
+          cat("处理反问句，处理后积极情感值和消极情感值分别为：",posvalue[ppcount],negvalue[nncount],"\n")          
         }
         #更新上一个窗口边界
         winfront<-i+1
