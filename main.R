@@ -12,8 +12,8 @@ ecal<-function(str){
   negvalue<-c()#存放单句消极情感倾向总值的数组
   pvalue<-0L #最终积极情感值
   nvalue<-0L #最终消极情感值
-  ppcount<-1
-  nncount<-1
+  sencount<-1
+  sencount<-1
   rheflag<-FALSE
   for (i in 1:length(result)){
     #开始查找情感倾向词
@@ -72,39 +72,38 @@ ecal<-function(str){
     if(result[i]%in%c("?",".","!","？","。","！")|is.na(result[i+1])){
       cat("发现结束符，句子结束，此时各个窗口值为：",winvalue,"\n")                  
       if(!is.null(winvalue)){
-        posvalue[ppcount]<-0
-        negvalue[nncount]<-0
+        posvalue[sencount]<-0
+        negvalue[sencount]<-0
         #累加窗口值
         for (k in 1:length(winvalue)) {
           if(winvalue[k]>0){
-            posvalue[ppcount]<-posvalue[ppcount]+winvalue[k]
+            posvalue[sencount]<-posvalue[sencount]+winvalue[k]
           }
           else if(winvalue[k]<0){
-            negvalue[nncount]<-negvalue[nncount]+winvalue[k]
+            negvalue[sencount]<-negvalue[sencount]+winvalue[k]
           }
         }
-        cat("第",,"句的积极情感值、消极情感值值分别是：",posvalue[ppcount],negvalue[nncount],"\n")
+        cat("第",,"句的积极情感值、消极情感值值分别是：",posvalue[sencount],negvalue[sencount],"\n")
         if(result[i]%in%c("!","！")){
-          posvalue[ppcount]=posvalue[ppcount]*2
-          negvalue[nncount]=negvalue[nncount]*2
-          cat("处理感叹句，处理后积极情感值和消极情感值分别为：",posvalue[ppcount],negvalue[nncount],"\n")          
+          posvalue[sencount]=posvalue[sencount]*2
+          negvalue[sencount]=negvalue[sencount]*2
+          cat("处理感叹句，处理后积极情感值和消极情感值分别为：",posvalue[sencount],negvalue[sencount],"\n")          
         }
         else if(result[i]%in%c("?","？") & rheflag==TRUE ){
-          temp<-negvalue[nncount]
-          negvalue[nncount]=posvalue[nncount]*(-2)
-          posvalue[ppcount]=temp*(-2)
-          cat("处理反问句，处理后积极情感值和消极情感值分别为：",posvalue[ppcount],negvalue[nncount],"\n")          
+          temp<-negvalue[sencount]
+          negvalue[sencount]=posvalue[sencount]*(-2)
+          posvalue[sencount]=temp*(-2)
+          cat("处理反问句，处理后积极情感值和消极情感值分别为：",posvalue[sencount],negvalue[sencount],"\n")          
         }
         #更新上一个窗口边界
         winfront<-i+1
         #窗口归位
         count<-1
         winvalue<-c()
-        pvalue<-pvalue+posvalue[ppcount]
-        nvalue<-nvalue+negvalue[nncount]
+        pvalue<-pvalue+posvalue[sencount]
+        nvalue<-nvalue+negvalue[sencount]
         #下一个句子索引
-        ppcount<-ppcount+1
-        nncount<-nncount+1
+        sencount<-sencount+1        
       }
     }
   }
